@@ -18,15 +18,13 @@
 | 你想做什么 | 去哪里看 |
 | --- | --- |
 | 了解系统架构 | .harness/rules/architecture.md |
-| 了解 LLM Agent 提示词 | src/paper_trading/agents/deciders.py |
-| 了解 24 因子和回测逻辑 | src/paper_trading/backtest_engine.py |
-| 了解 Alpaca 交易执行 | src/paper_trading/executor.py |
-| 了解所有配置项 | src/paper_trading/config.py |
-| 了解策略配置格式 | strategy_config.json |
-| 了解环境变量模板 | .env.example |
-| 了解 CLI 入口 | src/paper_trading/cli.py |
-| 了解编码规范 | .claude/rules/testing.md |
-| 运行全部测试 | tests/ |
+| 了解模块边界和依赖规则 | .harness/rules/boundaries.md |
+| 了解编码规范 | .harness/rules/conventions.md |
+| 了解需求与迭代计划 | .harness/changes/init.md |
+| 了解 LLM Agent 接口规范 | .harness/rules/llm-agents.md |
+| 了解 24 因子与策略配置 | .harness/rules/factors.md |
+| 了解配置项与环境变量 | .harness/rules/config-reference.md |
+| 了解测试规范 | .harness/rules/testing.md |
 
 ## 硬性规则（必须遵守，CI 会验证）
 
