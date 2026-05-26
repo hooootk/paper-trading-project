@@ -13,6 +13,13 @@
 - 包管理：setuptools + pyproject.toml，pip install -e ".[dev]" 可编辑安装
 - 代码检查：ruff ≥ 0.4（line-length=100）+ mypy ≥ 1.10（strict 模式）
 
+## 红线（不可违反）
+
+1. **mypy strict 零容忍** — 所有函数必须有类型注解，CI 通过才允许合入
+2. **禁止 `import *`，禁止可变默认参数** — ruff / mypy 会拦截
+3. **单文件 ≤ 400 行，单方法 ≤ 60 行** — CI 自动检查
+4. **新增因子/功能必须可配置化** — 新因子进 `strategy_config.json`，新参数进 `Settings` 类
+
 ## 快速导航
 
 | 你想做什么 | 去哪里看 |
@@ -26,16 +33,6 @@
 | 了解配置项与环境变量 | .harness/rules/config-reference.md |
 | 了解测试规范 | .harness/rules/testing.md |
 
-## 硬性规则（必须遵守，CI 会验证）
-
-1. 所有函数必须有类型注解，mypy strict 模式零容忍
-2. API 密钥/密钥通过 `from paper_trading.config import settings` 获取，禁止硬编码
-3. 禁止 `import *`，禁止可变默认参数
-4. LLM 调用统一通过 `BaseAgent.call_llm()`，禁止绕开直接调用 OpenAI
-5. 新增 LLM Agent 继承 `BaseAgent`，提示词模板放入 `agents/deciders.py`
-6. 交易执行统一通过 `AlpacaExecutor`，禁止直接调用 Alpaca SDK
-7. 新增因子或修改回测逻辑必须在 `strategy_config.json` 中可配置
-8. 单文件 ≤ 400 行，单方法 ≤ 60 行
 
 ## 提交规范
 
