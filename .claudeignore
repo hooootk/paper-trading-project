@@ -1,0 +1,22 @@
+# Dependencies and build
+.venv/
+venv/
+__pycache__/
+*.pyc
+dist/
+build/
+*.egg-info/
+
+# Sensitive files
+.env
+*.pem
+*.key
+
+# Data and logs
+*.log
+data/
+logs/
+
+# IDE
+.vscode/
+.idea/

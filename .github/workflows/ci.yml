@@ -1,0 +1,53 @@
+name: Quality Gates
+
+on: [pull_request]
+
+jobs:
+  quality-gates:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    # GitHub Actions runner 默认 Python/pip 版本可能与基线不一致，强制对齐
+    - name: Verify tooling
+      run: |
+        python --version
+        pip list | grep -E "ruff|mypy|pytest"
+
+    # ruff + mypy + pytest --cov 全部绑定，一次执行；任一失败即中断
+    - name: Lint, Type Check & Test
+      run: |
+        ruff check .
+        mypy src/
+        pytest --cov=paper_trading --cov-report=term-missing -v
+
+    - name: File Size Check
+      shell: bash
+      run: |
+        find src/paper_trading -name '*.py' | while read f; do
+          lines=$(wc -l < "$f")
+          if [ "$lines" -gt 400 ]; then
+            echo "X $f 有 ${lines} 行（上限 400）"
+            echo "  FIX: 拆分为更小的模块，将子组件独立到对应 agents/ 或其他子包。"
+            echo "  See: .claude/CLAUDE.md — 硬性规则 #8"
+            exit 1
+          fi
+        done
+
+    - name: Doc Freshness
+      shell: bash
+      run: |
+        find docs/ -name '*.md' 2>/dev/null | while read f; do
+          last_mod=$(git log -1 --format=%ct "$f" 2>/dev/null || echo 0)
+          if [ "$last_mod" = "0" ]; then continue; fi
+          now=$(date +%s)
+          days_old=$(( (now - last_mod) / 86400 ))
+          if [ "$days_old" -gt 60 ]; then
+            echo "⚠ $f 已 ${days_old} 天未更新，可能已过期"
+          fi
+        done

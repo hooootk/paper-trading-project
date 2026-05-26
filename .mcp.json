@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "python-docs": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-python-docs"],
+      "env": {}
+    }
+  }
+}
