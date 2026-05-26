@@ -56,13 +56,6 @@ mypy src/             # 类型检查
 pytest                # 运行测试
 ```
 
-或使用 pre-commit 自动执行：
-
-```bash
-pip install pre-commit
-pre-commit install
-```
-
 ## 通过标准
 
 - **Lint Job**：ruff 零告警 + mypy strict 零错误，任一失败则 Job 失败
